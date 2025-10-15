@@ -1,0 +1,194 @@
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: linear-gradient(135deg, #e6f0fa 0%, #d3e0f0 100%); /* Gradient pastel nhẹ nhàng */
+  color: #1a202c;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.App {
+  max-width: 1000px; /* Tăng chiều rộng tối đa */
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 20px; /* Bo góc lớn hơn */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Shadow mềm mại hơn */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.App:hover {
+  transform: translateY(-3px); /* Hiệu ứng nâng cao hơn */
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.App-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 {
+  color: #2d3748;
+  font-size: 2.5rem; /* Tăng cỡ chữ tiêu đề */
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-transform: uppercase; /* Chữ in hoa để nổi bật */
+  background: linear-gradient(90deg, #4b6cb7, #182b49); /* Gradient cho text */
+  -webkit-background-clip: text; /* Hiệu ứng gradient text */
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- Form Styling --- */
+.form-container {
+  background-color: #f9fafb; /* Màu nền nhạt hơn */
+  padding: 35px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form-group {
+  margin-bottom: 25px;
+  text-align: left;
+  flex: 0 0 auto;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.input {
+  font-size: 1.1rem; /* Tăng cỡ chữ input */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  border: 2px solid #e5e7eb; /* Đường viền dày hơn */
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  background-color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #4b6cb7; /* Màu viền khi focus */
+  box-shadow: 0 0 0 4px rgba(75, 108, 183, 0.15);
+  outline: none;
+  transform: scale(1.02); /* Hiệu ứng zoom nhẹ */
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(90deg, #4b6cb7 0%, #182b49 100%); /* Gradient đậm hơn */
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #355e9e 0%, #0f1c2c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(75, 108, 183, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* --- User List Styling --- */
+.user-list-container {
+  text-align: left;
+}
+
+.user-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user-list li {
+  background-color: #f9fafb;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-list li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.user-info .user-name {
+  font-weight: 700;
+  color: #2d3748;
+  font-size: 1.2rem;
+}
+
+.user-info .user-email {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-left: 15px;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .App {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .form-group input {
+    padding: 12px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .user-list li {
+    padding: 15px;
+  }
+
+  .user-info .user-name {
+    font-size: 1.1rem;
+  }
+
+  .user-info .user-email {
+    font-size: 0.9rem;
+  }
+}
