@@ -29,9 +29,9 @@ function App() {
   // Hàm xử lý khi thêm user mới
   const handleAddUser = async (newUser) => {
     try {
-      const response = await axios.post("http://localhost:3000/users", newUser);
-      // Thêm user mới vào danh sách hiện tại để cập nhật giao diện
-      setUsers([...users, response.data]);
+      const response = await axios.post("http://localhost:3001/users", newUser); // Lấy response từ backend
+      setUsers([...users, response.data]); // Thêm user vào state ngay lập tức
+      fetchUsers(); // Đồng bộ với backend
     } catch (error) {
       console.error("Lỗi khi thêm user:", error);
     }
