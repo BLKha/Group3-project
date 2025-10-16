@@ -226,3 +226,19 @@ button:active {
   background: linear-gradient(90deg, #c82333 0%, #bd2130 100%);
   box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3); /* Shadow đỏ */
 }
+
+/* --- CSS CHO CÁC NÚT TRONG FORM --- */
+.form-actions {
+  display: flex;
+  gap: 15px; /* <-- Tăng hoặc giảm giá trị này để điều chỉnh khoảng cách */
+}
+
+/* Style cho nút Hủy để khác biệt */
+.btn-cancel {
+  background: linear-gradient(90deg, #6c757d 0%, #5a6268 100%); /* Gradient màu xám */
+}
+
+.btn-cancel:hover {
+  background: linear-gradient(90deg, #5a6268 0%, #4e555b 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
