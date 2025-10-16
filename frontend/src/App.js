@@ -9,7 +9,7 @@ function App() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/users");
+      const response = await axios.get("http://localhost:3001/users");
       setUsers(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu users:", error);
@@ -22,7 +22,7 @@ function App() {
 
   const handleAddUser = async (newUser) => {
     try {
-      const response = await axios.post("http://localhost:3000/users", newUser); // Lấy response từ backend
+      const response = await axios.post("http://localhost:3001/users", newUser); // Lấy response từ backend
       setUsers([...users, response.data]); // Thêm user vào state ngay lập tức
       fetchUsers(); // Đồng bộ với backend
     } catch (error) {

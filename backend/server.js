@@ -4,7 +4,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+const cors = require('cors');
 app.use(express.json());
+// Enable CORS so frontend (running on another origin/port) can call the API
+app.use(cors());
 
 // Kết nối MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -15,5 +18,6 @@ mongoose.connect(process.env.MONGODB_URI)
 const userRoutes = require('./routes/user');
 app.use('/users', userRoutes);
 
-const PORT = process.env.PORT || 3000;
+// Default backend port set to 3001 to match frontend axios base URL
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
