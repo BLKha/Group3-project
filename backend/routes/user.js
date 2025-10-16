@@ -3,9 +3,14 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 // GET: Lấy danh sách người dùng
-router.get('/users', userController.getUsers);
+router.get('/', userController.getUsers);
 
 // POST: Thêm người dùng mới
-router.post('/users', userController.createUser);
+router.post('/', userController.createUser);
+
+// sửa
+router.put('/:id', userController.updateUser);
+// xóa
+router.delete('/:id', userController.deleteUser);
 
 module.exports = router;
