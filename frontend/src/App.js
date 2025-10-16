@@ -30,6 +30,43 @@ function App() {
     }
   };
 
+  // Hàm xử lý khi nhấn nút "Xóa"
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/users/${id}`);
+      // Lọc bỏ user đã xóa ra khỏi state để cập nhật giao diện
+      setUsers(users.filter(user => user._id !== id));
+    } catch (error) {
+      console.error("Lỗi khi xóa user:", error);
+    }
+  };
+
+  // Hàm xử lý khi nhấn nút "Sửa"
+  const handleEdit = (user) => {
+    // Set user được chọn vào state editingUser để truyền vào form
+    setEditingUser(user);
+  };
+  
+  // Hàm xử lý khi submit form chỉnh sửa
+  const handleUpdateUser = async (updatedUser) => {
+    try {
+      // Gửi request PUT để cập nhật lên backend
+      const response = await axios.put(`http://localhost:3000/users/${updatedUser._id}`, updatedUser);
+
+      // Cập nhật lại danh sách users trên giao diện
+      setUsers(users.map(user => (user._id === updatedUser._id ? response.data : user)));
+
+      // Reset editingUser để form quay về chế độ "Thêm mới"
+      setEditingUser(null);
+    } catch (error) {
+      console.error("Lỗi khi cập nhật user:", error);
+    }
+  };
+
+  // Hàm xử lý khi hủy chỉnh sửa
+  const handleCancelEdit = () => {
+    setEditingUser(null);
+  };
   return (
     <div className="App">
       <header className="App-header">
