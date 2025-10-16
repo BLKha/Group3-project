@@ -29,7 +29,6 @@ function App() {
       console.error("Lỗi khi thêm user:", error);
     }
   };
-
   // Hàm xử lý khi nhấn nút "Xóa"
   const handleDelete = async (id) => {
     try {
@@ -67,6 +66,7 @@ function App() {
   const handleCancelEdit = () => {
     setEditingUser(null);
   };
+
   return (
     <div className="App">
       <header className="App-header">
