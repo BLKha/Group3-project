@@ -12,7 +12,7 @@ function App() {
   // Hàm lấy danh sách user từ backend
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/users");
+      const response = await axios.get("http://localhost:3001/users");
       setUsers(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu users:", error);
@@ -28,8 +28,10 @@ function App() {
   const handleAddUser = async (newUser) => {
     try {
       const response = await axios.post("http://localhost:3001/users", newUser); // Lấy response từ backend
-      setUsers([...users, response.data]); // Thêm user vào state ngay lập tức
-      fetchUsers(); // Đồng bộ với backend
+      // Thêm user vào state ngay lập tức
+      setUsers(prev => [...prev, response.data]);
+      // Return the created user so callers can await when needed
+      return response.data;
     } catch (error) {
       console.error("Lỗi khi thêm user:", error);
     }
@@ -38,7 +40,7 @@ function App() {
   // Hàm xử lý khi nhấn nút "Xóa"
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/users/${id}`);
+      await axios.delete(`http://localhost:3001/users/${id}`);
       // Lọc bỏ user đã xóa ra khỏi state để cập nhật giao diện
       setUsers(users.filter(user => user._id !== id));
     } catch (error) {
@@ -58,13 +60,16 @@ function App() {
   const handleUpdateUser = async (updatedUser) => {
     try {
       // Gửi request PUT để cập nhật lên backend
-      const response = await axios.put(`http://localhost:3000/users/${updatedUser._id}`, updatedUser);
+      const response = await axios.put(`http://localhost:3001/users/${updatedUser._id}`, updatedUser);
 
       // Cập nhật lại danh sách users trên giao diện
-      setUsers(users.map(user => (user._id === updatedUser._id ? response.data : user)));
+      setUsers(prev => prev.map(user => (user._id === updatedUser._id ? response.data : user)));
 
       // Reset editingUser để form quay về chế độ "Thêm mới"
       setEditingUser(null);
+
+      // Return updated user
+      return response.data;
     } catch (error) {
       console.error("Lỗi khi cập nhật user:", error);
     }

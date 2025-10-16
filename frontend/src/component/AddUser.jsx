@@ -30,10 +30,29 @@ const AddUser = ({ onAdd, editingUser, onUpdate, onCancelEdit }) => {
     // Kiểm tra xem đang ở chế độ "Sửa" hay "Thêm mới"
     if (editingUser) {
       // Nếu có `editingUser` -> gọi hàm onUpdate từ App.js
-      onUpdate({ ...editingUser, name, email });
+      // If onUpdate returns a promise, await it so parent can finish and then form will
+      // be reset when editingUser becomes null (handled by useEffect).
+      const res = onUpdate({ ...editingUser, name, email });
+      // If parent returned a promise, handle rejection to show error
+      if (res && typeof res.then === 'function') {
+        res.catch(err => console.error('Update failed:', err));
+      }
     } else {
       // Nếu không -> gọi hàm onAdd từ App.js
-      onAdd({ name, email });
+      const res = onAdd({ name, email });
+      // Nếu onAdd trả về Promise thì chờ nó resolve rồi reset form
+      if (res && typeof res.then === 'function') {
+        res.then(() => {
+          setName('');
+          setEmail('');
+        }).catch(err => {
+          console.error('Add failed:', err);
+        });
+      } else {
+        // Nếu onAdd là sync, ngay lập tức reset
+        setName('');
+        setEmail('');
+      }
     }
   };
 
