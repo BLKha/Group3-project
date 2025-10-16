@@ -192,3 +192,53 @@ button:active {
     font-size: 0.9rem;
   }
 }
+
+/* --- CSS MỚI CHO CÁC NÚT SỬA/XÓA --- */
+
+.user-actions {
+  display: flex;
+  gap: 10px; /* Tạo khoảng cách giữa 2 nút */
+}
+
+/* Ghi đè lại style chung cho các nút trong user-actions */
+.user-actions button {
+  width: auto; /* Bỏ width 100% của nút chung */
+  padding: 10px 20px; /* Điều chỉnh padding cho gọn hơn */
+  font-size: 0.9rem;
+}
+
+/* Style cho nút Sửa (Edit) */
+.btn-edit {
+  background: linear-gradient(90deg, #28a745 0%, #218838 100%); /* Gradient xanh lá */
+}
+
+.btn-edit:hover {
+  background: linear-gradient(90deg, #218838 0%, #1e7e34 100%);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); /* Shadow xanh lá */
+}
+
+/* Style cho nút Xóa (Delete) */
+.btn-delete {
+  background: linear-gradient(90deg, #dc3545 0%, #c82333 100%); /* Gradient đỏ */
+}
+
+.btn-delete:hover {
+  background: linear-gradient(90deg, #c82333 0%, #bd2130 100%);
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3); /* Shadow đỏ */
+}
+
+/* --- CSS CHO CÁC NÚT TRONG FORM --- */
+.form-actions {
+  display: flex;
+  gap: 15px; /* <-- Tăng hoặc giảm giá trị này để điều chỉnh khoảng cách */
+}
+
+/* Style cho nút Hủy để khác biệt */
+.btn-cancel {
+  background: linear-gradient(90deg, #6c757d 0%, #5a6268 100%); /* Gradient màu xám */
+}
+
+.btn-cancel:hover {
+  background: linear-gradient(90deg, #5a6268 0%, #4e555b 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
