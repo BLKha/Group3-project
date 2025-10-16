@@ -44,3 +44,17 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+// cập nhật 
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const updated = await User.findByIdAndUpdate(id, req.body, { new: true });
+  if (!updated) return res.status(404).json({ message: 'Not found' });
+  res.json(updated);
+};
+
+// xóa
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+  await User.findByIdAndDelete(id);
+  res.json({ message: 'Deleted' });
+};
