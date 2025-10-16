@@ -12,13 +12,15 @@ function App() {
   // Hàm lấy danh sách user từ backend
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/users");
+      const response = await axios.get("http://localhost:3000/users");
       setUsers(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu users:", error);
     }
   };
 
+
+  
   // Chạy fetchUsers một lần khi component được tải lần đầu
   useEffect(() => {
     fetchUsers();
