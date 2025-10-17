@@ -6,6 +6,8 @@ import './App.css';
 
 function App() {
   const [users, setUsers] = useState([]);
+  // State để lưu thông tin user đang được chỉnh sửa
+  const [editingUser, setEditingUser] = useState(null);
 
   const fetchUsers = async () => {
     try {
@@ -67,11 +69,6 @@ function App() {
     }
   };
 
-
-
-
-
-  
   // Hàm xử lý khi hủy chỉnh sửa
   const handleCancelEdit = () => {
     setEditingUser(null);
@@ -82,10 +79,19 @@ function App() {
       <header className="App-header">
         <h1>Quản Lý User</h1>
         <div className="form-container">
-          <AddUser onAdd={handleAddUser} />
+          <AddUser
+            onAdd={handleAddUser}
+            editingUser={editingUser}
+            onUpdate={handleUpdateUser}
+            onCancelEdit={handleCancelEdit}
+          />
         </div>
         <div className="user-list-container">
-          <UserList users={users} />
+          <UserList
+            users={users}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </div>
       </header>
     </div>
