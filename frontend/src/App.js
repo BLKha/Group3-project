@@ -6,10 +6,7 @@ import './App.css';
 
 function App() {
   const [users, setUsers] = useState([]);
-  // State để lưu thông tin user đang được chỉnh sửa
-  const [editingUser, setEditingUser] = useState(null);
 
-  // Hàm lấy danh sách user từ backend
   const fetchUsers = async () => {
     try {
       const response = await axios.get("http://localhost:3001/users");
@@ -19,12 +16,10 @@ function App() {
     }
   };
 
-  // Chạy fetchUsers một lần khi component được tải lần đầu
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Hàm xử lý khi thêm user mới
   const handleAddUser = async (newUser) => {
     try {
       const response = await axios.post("http://localhost:3001/users", newUser); // Lấy response từ backend
@@ -36,7 +31,6 @@ function App() {
       console.error("Lỗi khi thêm user:", error);
     }
   };
-
   // Hàm xử lý khi nhấn nút "Xóa"
   const handleDelete = async (id) => {
     try {
@@ -53,8 +47,6 @@ function App() {
     // Set user được chọn vào state editingUser để truyền vào form
     setEditingUser(user);
   };
-
-
   
   // Hàm xử lý khi submit form chỉnh sửa
   const handleUpdateUser = async (updatedUser) => {
@@ -89,29 +81,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Quản Lý User</h1>
-
-        {/* --- KHỐI 1: FORM --- */}
-        {/* Component này luôn hiển thị, nó sẽ tự thay đổi giao diện */}
-        {/* và chức năng dựa vào prop 'editingUser' */}
         <div className="form-container">
-          <AddUser
-            onAdd={handleAddUser}
-            editingUser={editingUser}
-            onUpdate={handleUpdateUser}
-            onCancelEdit={handleCancelEdit}
-          />
+          <AddUser onAdd={handleAddUser} />
         </div>
-
-        {/* --- KHỐI 2: DANH SÁCH USER --- */}
-        {/* Component này cũng luôn hiển thị và không bị ảnh hưởng */}
         <div className="user-list-container">
-          <UserList
-            users={users}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
+          <UserList users={users} />
         </div>
-        
       </header>
     </div>
   );
