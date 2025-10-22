@@ -17,6 +17,8 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 const userRoutes = require('./routes/user');
 app.use('/users', userRoutes);
+const authRoutes = require('./routes/auth'); // Thêm route authentication
+app.use('/auth', authRoutes); // Sử dụng route /auth cho signup, login, logout
 
 // Default backend port set to 3001 to match frontend axios base URL
 const PORT = process.env.PORT || 3001;
