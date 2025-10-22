@@ -1,84 +1,106 @@
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: linear-gradient(135deg, #e6f0fa 0%, #d3e0f0 100%); /* Gradient pastel nhẹ nhàng */
+  background: linear-gradient(135deg, #e6f0fa 0%, #d3e0f0 100%);
   color: #1a202c;
   margin: 0;
-  padding: 20px;
+  padding: 5px;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .App {
-  max-width: 1000px; /* Tăng chiều rộng tối đa */
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 30px;
+  padding: 20px;
   background-color: #ffffff;
-  border-radius: 20px; /* Bo góc lớn hơn */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Shadow mềm mại hơn */
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* SỬA LỖI GIAO DIỆN: Thêm dòng này để xếp các phần tử theo chiều dọc */
+  display: flex;
+  flex-direction: column;
 }
 
 .App:hover {
-  transform: translateY(-3px); /* Hiệu ứng nâng cao hơn */
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .App-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+  width: 100%; /* Đảm bảo header chiếm đủ chiều rộng */
 }
 
 h1 {
   color: #2d3748;
-  font-size: 2.5rem; /* Tăng cỡ chữ tiêu đề */
+  font-size: 2.5rem;
   font-weight: 800;
   letter-spacing: -0.025em;
-  text-transform: uppercase; /* Chữ in hoa để nổi bật */
-  background: linear-gradient(90deg, #4b6cb7, #182b49); /* Gradient cho text */
-  -webkit-background-clip: text; /* Hiệu ứng gradient text */
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #4b6cb7, #182b49);
+  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 /* --- Form Styling --- */
 .form-container {
-  background-color: #f9fafb; /* Màu nền nhạt hơn */
-  padding: 35px;
+  background-color: #f9fafb;
+  padding: 30px;
   border-radius: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  min-height: 500px; 
+  width: 100%; 
+  box-sizing: border-box; /* Thêm dòng này để padding không làm tăng width */
 }
 
+/* Thêm CSS cho Auth Wrapper để căn giữa form */
+.auth-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+/* Giới hạn chiều rộng của form Auth */
+.auth-wrapper .form-container {
+  max-width: 500px; /* Bạn có thể điều chỉnh số này */
+  min-height: auto; /* Bỏ min-height 500px cho form auth */
+}
+
+
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   text-align: left;
   flex: 0 0 auto;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
 }
 
 .form-group label {
   display: block;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: #4a5568;
   font-size: 1rem;
 }
 
-.input {
-  font-size: 1.1rem; /* Tăng cỡ chữ input */
-}
-
 .form-group input {
   width: 100%;
-  padding: 15px;
-  margin: 10px 0;
-  border: 2px solid #e5e7eb; /* Đường viền dày hơn */
-  border-radius: 10px;
+  padding: 12px;
+  margin: 5px 0;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
   box-sizing: border-box;
   font-size: 1rem;
   background-color: #ffffff;
@@ -86,29 +108,37 @@ h1 {
 }
 
 .form-group input:focus {
-  border-color: #4b6cb7; /* Màu viền khi focus */
-  box-shadow: 0 0 0 4px rgba(75, 108, 183, 0.15);
+  border-color: #4b6cb7;
+  box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.15);
   outline: none;
-  transform: scale(1.02); /* Hiệu ứng zoom nhẹ */
+  transform: scale(1.01);
+}
+
+.btn-group {
+  display: flex;
+  gap: 20px; 
+  justify-content: center;
+  margin-top: 20px; 
 }
 
 button {
-  width: 100%;
-  padding: 15px;
-  background: linear-gradient(90deg, #4b6cb7 0%, #182b49 100%); /* Gradient đậm hơn */
+  padding: 12px 25px; 
+  background: linear-gradient(90deg, #4b6cb7 0%, #182b49 100%);
   color: #ffffff;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+  flex: 1;
+  max-width: 200px; 
 }
 
 button:hover {
   background: linear-gradient(90deg, #355e9e 0%, #0f1c2c 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(75, 108, 183, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(75, 108, 183, 0.3);
 }
 
 button:active {
@@ -119,6 +149,8 @@ button:active {
 /* --- User List Styling --- */
 .user-list-container {
   text-align: left;
+  width: 100%;
+  box-sizing: border-box; /* Thêm dòng này */
 }
 
 .user-list {
@@ -128,64 +160,73 @@ button:active {
 
 .user-list li {
   background-color: #f9fafb;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  margin-bottom: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .user-list li:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 .user-info .user-name {
   font-weight: 700;
   color: #2d3748;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .user-info .user-email {
   color: #6b7280;
   font-size: 1rem;
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
   .App {
     max-width: 90%;
-    padding: 20px;
+    padding: 10px;
   }
 
   .form-container {
-    padding: 20px;
+    padding: 15px;
+    min-height: 350px; 
+  }
+  
+  .auth-wrapper .form-container {
+    min-height: auto;
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .form-group input {
-    padding: 12px;
+    padding: 8px;
   }
 
   button {
-    padding: 12px;
+    padding: 10px 20px;
     font-size: 1rem;
   }
 
+  .btn-group {
+    gap: 10px; 
+  }
+
   .user-list li {
-    padding: 15px;
+    padding: 10px;
   }
 
   .user-info .user-name {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .user-info .user-email {
@@ -194,51 +235,57 @@ button:active {
 }
 
 /* --- CSS MỚI CHO CÁC NÚT SỬA/XÓA --- */
-
 .user-actions {
   display: flex;
-  gap: 10px; /* Tạo khoảng cách giữa 2 nút */
+  gap: 10px;
 }
 
-/* Ghi đè lại style chung cho các nút trong user-actions */
 .user-actions button {
-  width: auto; /* Bỏ width 100% của nút chung */
-  padding: 10px 20px; /* Điều chỉnh padding cho gọn hơn */
+  width: auto;
+  padding: 8px 15px;
   font-size: 0.9rem;
 }
 
-/* Style cho nút Sửa (Edit) */
 .btn-edit {
-  background: linear-gradient(90deg, #28a745 0%, #218838 100%); /* Gradient xanh lá */
+  background: linear-gradient(90deg, #28a745 0%, #218838 100%);
 }
 
 .btn-edit:hover {
   background: linear-gradient(90deg, #218838 0%, #1e7e34 100%);
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); /* Shadow xanh lá */
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
-/* Style cho nút Xóa (Delete) */
 .btn-delete {
-  background: linear-gradient(90deg, #dc3545 0%, #c82333 100%); /* Gradient đỏ */
+  background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
 }
 
 .btn-delete:hover {
   background: linear-gradient(90deg, #c82333 0%, #bd2130 100%);
-  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3); /* Shadow đỏ */
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 /* --- CSS CHO CÁC NÚT TRONG FORM --- */
 .form-actions {
   display: flex;
-  gap: 15px; /* <-- Tăng hoặc giảm giá trị này để điều chỉnh khoảng cách */
+  gap: 15px;
+  justify-content: center; /* Thêm để căn giữa nút */
 }
 
-/* Style cho nút Hủy để khác biệt */
 .btn-cancel {
-  background: linear-gradient(90deg, #6c757d 0%, #5a6268 100%); /* Gradient màu xám */
+  background: linear-gradient(90deg, #6c757d 0%, #5a6268 100%);
 }
 
 .btn-cancel:hover {
   background: linear-gradient(90deg, #5a6268 0%, #4e555b 100%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* --- CSS MỚI CHO NÚT ĐĂNG KÝ --- */
+.btn-register {
+  background: linear-gradient(90deg, #28a745 0%, #218838 100%);
+}
+
+.btn-register:hover {
+  background: linear-gradient(90deg, #218838 0%, #1e7e34 100%);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
