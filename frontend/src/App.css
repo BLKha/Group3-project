@@ -35,6 +35,53 @@ body {
   width: 100%; /* Đảm bảo header chiếm đủ chiều rộng */
 }
 
+/* Header top area: split into two stacked rows */
+.header-top {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Button-like links (use same visual style as primary buttons) */
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #4b6cb7 0%, #182b49 100%);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(12, 56, 112, 0.12);
+  transition: background 0.25s, transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-link:hover {
+  background: linear-gradient(90deg, #355e9e 0%, #0f1c2c 100%);
+  transform: translateY(-1px);
+}
+
+.btn-link:active {
+  transform: translateY(0);
+}
+
+.login-row {
+  font-weight: 700;
+  color: #2d3748;
+  background: rgba(75,108,183,0.06);
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
 h1 {
   color: #2d3748;
   font-size: 2.5rem;
