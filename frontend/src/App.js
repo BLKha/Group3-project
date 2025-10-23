@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserList from './component/UserList';
@@ -7,16 +5,16 @@ import AddUser from './component/AddUser';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from './component/Auth';
+import Profile from './component/Profile';
+import { Link } from 'react-router-dom';
 
 function App() {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
-  // Lấy token từ localStorage khi khởi tạo, nếu không có thì là null
   const [token, setToken] = useState(localStorage.getItem('token'));
+  const [currentUser, setCurrentUser] = useState(null);
 
   const fetchUsers = async () => {
-    // Chỉ fetch users nếu có token
-    if (!token) return; 
     try {
       const response = await axios.get("http://localhost:3001/users", {
         headers: { Authorization: `Bearer ${token}` }
@@ -24,19 +22,27 @@ function App() {
       setUsers(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu users:", error);
-      // Xử lý lỗi token hết hạn hoặc không hợp lệ: tự động đăng xuất
-      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-        handleLogout(); 
-      }
     }
   };
 
   useEffect(() => {
-    // Gọi fetchUsers mỗi khi token thay đổi (đăng nhập/đăng xuất)
+    // Khi token thay đổi, lưu vào localStorage và lấy users
     if (token) {
+      localStorage.setItem('token', token);
       fetchUsers();
+      // Fetch current user's profile to show logged-in name
+      (async () => {
+        try {
+          const res = await axios.get('http://localhost:3001/profile', { headers: { Authorization: `Bearer ${token}` } });
+          setCurrentUser(res.data);
+        } catch (err) {
+          console.error('Không thể lấy profile:', err?.response?.data || err.message);
+          setCurrentUser(null);
+        }
+      })();
     } else {
-      setUsers([]); // Xóa danh sách users nếu không có token
+      localStorage.removeItem('token');
+      setUsers([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
@@ -47,6 +53,7 @@ function App() {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers([...users, response.data]);
+      fetchUsers();
     } catch (error) {
       console.error("Lỗi khi thêm user:", error);
     }
@@ -83,36 +90,28 @@ function App() {
     setEditingUser(null);
   };
 
-  // Hàm đăng xuất: xóa token và đặt lại state
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    setUsers([]); // Xóa danh sách user khi đăng xuất
-  };
-
   return (
     <Router>
       <div className="App">
         <header className="App-header">
           <h1>Quản Lý User</h1>
 
-          {/* Sửa logic render ở đây */}
           {!token ? (
-            // Nếu CHƯA có token (chưa đăng nhập), chỉ hiển thị Auth component
             <Auth onAuth={setToken} />
           ) : (
-            // Nếu ĐÃ CÓ token (đã đăng nhập), hiển thị nút Đăng Xuất và các chức năng quản lý user
             <>
-              {/* Nút Đăng Xuất */}
-              <button
-                onClick={handleLogout}
-                className="btn-delete" // Sử dụng lại class btn-delete cho màu đỏ
-                style={{ maxWidth: '200px', margin: '0 auto 20px' }} // CSS tùy chỉnh cho nút
-              >
-                Đăng Xuất
-              </button>
+              <div className="header-top">
+                <div className="nav-row">
+                  <Link to="/" className="btn-link">Home</Link>
+                  <Link to="/profile" className="btn-link">Profile</Link>
+                  <button onClick={() => { setToken(null); setCurrentUser(null); }} className="btn-delete">Đăng Xuất</button>
+                </div>
 
-              {/* Các route và component quản lý user */}
+                <div className="login-row">
+                  Đang đăng nhập: {currentUser ? currentUser.name : '...'}
+                </div>
+              </div>
+
               <Routes>
                 <Route
                   path="/"
@@ -136,6 +135,7 @@ function App() {
                     </>
                   }
                 />
+                <Route path="/profile" element={<Profile token={token} currentUser={currentUser} />} />
               </Routes>
             </>
           )}
