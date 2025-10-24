@@ -11,6 +11,8 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+
+
 // POST /users - tạo user (public)
 exports.createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
