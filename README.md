@@ -36,12 +36,12 @@ cd Group3-project
 ```bash
 cd backend
 npm install
-npm start
+npm run dev
 ```
 
-Backend mặc định chạy ở cổng 3000 (hoặc cổng được cấu hình trong `server.js`). Kiểm tra `package.json` trong `backend/` để biết lệnh chính xác nếu khác.
+Backend mặc định chạy ở cổng 3001.
 
-3. Cài đặt và chạy Frontend (trong một terminal khác):
+3. Cài đặt và chạy Frontend:
 
 ```bash
 cd frontend
@@ -49,7 +49,7 @@ npm install
 npm start
 ```
 
-Frontend thường chạy ở cổng 3000 hoặc 3001 (Create React App sẽ hỏi nếu cổng bận). Mở trình duyệt vào `http://localhost:3000` hoặc cổng được hiển thị.
+Frontend chạy ở cổng 3000 (Create React App sẽ hỏi nếu cổng bận). Mở trình duyệt vào `http://localhost:3000` hoặc cổng được hiển thị.
 
 ## Cấu trúc thư mục (tóm tắt)
 
