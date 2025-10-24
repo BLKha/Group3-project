@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserList from './component/UserList';
 import AddUser from './component/AddUser';
-import './App.css';
+import './styles/App.css';
+import './styles/buttons.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from './component/Auth';
 import Profile from './component/Profile';
@@ -117,20 +118,27 @@ function App() {
                   path="/"
                   element={
                     <>
-                      <div className="form-container">
-                        <AddUser
-                          onAdd={handleAddUser}
-                          editingUser={editingUser}
-                          onUpdate={handleUpdateUser}
-                          onCancelEdit={handleCancelEdit}
-                        />
-                      </div>
-                      <div className="user-list-container">
-                        <UserList
-                          users={users}
-                          onEdit={handleEdit}
-                          onDelete={handleDelete}
-                        />
+                      <div className="main-content">
+                        <div className="left-pane">
+                          <div className="form-container">
+                            <AddUser
+                              onAdd={handleAddUser}
+                              editingUser={editingUser}
+                              onUpdate={handleUpdateUser}
+                              onCancelEdit={handleCancelEdit}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="right-pane">
+                          <div className="user-list-container">
+                            <UserList
+                              users={users}
+                              onEdit={handleEdit}
+                              onDelete={handleDelete}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </>
                   }

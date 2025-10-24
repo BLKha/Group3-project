@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/Auth.css'; // Reuse Auth styles for form layout
 
 const AddUser = ({ onAdd, editingUser, onUpdate, onCancelEdit }) => {
   // State để quản lý dữ liệu trong các ô input

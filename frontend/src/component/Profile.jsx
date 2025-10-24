@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../styles/Profile.css';
 
 const Profile = ({ token, currentUser }) => {
   const [user, setUser] = useState(currentUser || null);

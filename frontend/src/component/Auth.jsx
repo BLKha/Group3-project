@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../styles/Auth.css';
 
 const API_BASE = 'http://localhost:3001';
 
