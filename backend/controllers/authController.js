@@ -15,6 +15,8 @@ exports.signup = async (req, res) => {
   res.status(201).json({ message: 'User created' });
 };
 
+
+ 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
