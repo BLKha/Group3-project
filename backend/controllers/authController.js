@@ -1,7 +1,9 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'your-secret-key';
+// Use environment variable for JWT secret and expiry to avoid hard-coded secrets
+const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_EXPIRES = process.env.JWT_EXPIRES || '1h';
 
 exports.signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -19,7 +21,7 @@ exports.login = async (req, res) => {
   if (!user || !await bcrypt.compare(password, user.password)) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
-  const token = jwt.sign({ id: user._id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
+  const token = jwt.sign({ id: user._id, role: user.role }, SECRET_KEY, { expiresIn: JWT_EXPIRES });
   res.json({ token });
 };
 

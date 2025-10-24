@@ -11,6 +11,8 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+
+
 // POST /users - tạo user (public)
 exports.createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -52,3 +54,4 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
