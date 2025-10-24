@@ -21,6 +21,9 @@ const authRoutes = require('./routes/auth'); // Thêm route authentication
 app.use('/auth', authRoutes); // Sử dụng route /auth cho signup, login, logout
 
 app.use('/profile', require('./routes/profile'));
+// Advanced features: forgot/reset password, upload-avatar
+const advancedRoutes = require('./routes/advanced');
+app.use('/advanced', advancedRoutes);
 
 // Default backend port set to 3001 to match frontend axios base URL
 const PORT = process.env.PORT || 3001;
