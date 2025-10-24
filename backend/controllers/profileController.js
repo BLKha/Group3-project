@@ -7,7 +7,9 @@ const authMiddleware = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'No token' });
   jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key', (err, decoded) => {
     if (err) return res.status(401).json({ message: 'Invalid token' });
+    // Attach both user id and role to request for downstream permission checks
     req.userId = decoded.id;
+    req.userRole = decoded.role;
     next();
   });
 };
