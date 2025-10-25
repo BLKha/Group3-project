@@ -45,6 +45,8 @@ const Auth = ({ onAuth }) => {
     }
   };
 
+
+  
   return (
     <div className="auth-wrapper">
       <div className="form-container">
