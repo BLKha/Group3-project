@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Profile.css';
 
-const API_BASE = 'http://localhost:3001';
-
 const Profile = ({ token, currentUser }) => {
   const [user, setUser] = useState(currentUser || null);
   const [name, setName] = useState((currentUser && currentUser.name) || '');
@@ -16,7 +14,7 @@ const Profile = ({ token, currentUser }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`${API_BASE}/profile`, {
+        const response = await axios.get('http://localhost:5000/api/profile', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUser(response.data);
@@ -26,6 +24,7 @@ const Profile = ({ token, currentUser }) => {
         setMessage('Lỗi tải thông tin');
       }
     };
+    // Nếu không có currentUser prop, fetch từ server
     if (token && !currentUser) fetchProfile();
   }, [token, currentUser]);
 
@@ -45,7 +44,7 @@ const Profile = ({ token, currentUser }) => {
 
     try {
       const response = await axios.post(
-        `${API_BASE}/profile/upload-avatar`,
+        'http://localhost:5000/api/profile/upload-avatar',
         formData,
         {
           headers: {
@@ -54,10 +53,10 @@ const Profile = ({ token, currentUser }) => {
           }
         }
       );
-      setMessage('Cập nhật ảnh đại diện thành công');
+      setMessage('Avatar uploaded successfully');
       setUser(prev => ({ ...prev, avatar: response.data.avatarUrl }));
     } catch (error) {
-      setMessage('Lỗi cập nhật ảnh đại diện');
+      setMessage('Failed to upload avatar');
     }
   };
 
@@ -68,18 +67,18 @@ const Profile = ({ token, currentUser }) => {
       const payload = { name, email };
       if (password) payload.password = password;
       const response = await axios.put(
-        `${API_BASE}/profile`,
+        'http://localhost:5000/api/profile',
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage('Cập nhật thông tin thành công');
+      setMessage('Cập nhật thành công');
       setPassword('');
       
       if (avatar) {
         await handleAvatarUpload();
       }
     } catch (error) {
-      setMessage('Lỗi cập nhật thông tin');
+      setMessage('Lỗi cập nhật');
     }
   };
 
@@ -184,14 +183,7 @@ const Profile = ({ token, currentUser }) => {
                 </button>
               </div>
               {message && (
-                <p 
-                  className="profile-message" 
-                  style={{ 
-                    marginTop: 12, 
-                    textAlign: 'center',
-                    color: message.includes('thành công') ? '#4caf50' : '#f44336'
-                  }}
-                >
+                <p className="profile-message" style={{ marginTop: 12, textAlign: 'center', color: message.includes('thành công') ? 'green' : 'red' }}>
                   {message}
                 </p>
               )}

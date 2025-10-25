@@ -1,6 +1,7 @@
 // src/component/Auth.js
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Auth.css';
 
@@ -91,6 +92,13 @@ const Auth = ({ onAuth }) => {
               Chuyển sang {isLogin ? 'Đăng Ký' : 'Đăng Nhập'}
             </button>
           </div>
+          {isLogin && (
+            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+              <Link to="/forgot-password" style={{ color: '#0066cc', textDecoration: 'none' }}>
+                Quên mật khẩu?
+              </Link>
+            </div>
+          )}
           {message && <p style={{ textAlign: 'center', marginTop: '10px' }}>{message}</p>}
         </form>
       </div>
