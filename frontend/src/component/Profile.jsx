@@ -96,4 +96,8 @@ const Profile = ({ token, currentUser }) => {
   );
 };
 
+
+
+
+
 export default Profile;
