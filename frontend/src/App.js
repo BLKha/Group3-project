@@ -6,6 +6,8 @@ import './styles/buttons.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Auth from './component/Auth';
 import Profile from './component/Profile';
+import ForgotPassword from './component/ForgotPassword';
+import ResetPassword from './component/ResetPassword';
 import { Link } from 'react-router-dom';
 
 function App() {
@@ -69,35 +71,49 @@ function App() {
       <div className="App">
         <header className="App-header">
           <h1>Quản Lý User</h1>
-          {/* admin link moved into nav-row so it aligns with other nav buttons */}
-
-          {!token ? (
-            <Auth onAuth={setToken} />
-          ) : (
-            <>
-              <div className="header-top">
-                <div className="nav-row">
-                  <Link to="/" className="btn-link">Home</Link>
-                  <Link to="/profile" className="btn-link">Profile</Link>
-                  {token && isAdmin && (
-                    <Link to="/admin/users" className="btn-link">Quản lý Users</Link>
-                  )}
-                  <button onClick={handleLogout} className="btn-delete">Đăng Xuất</button>
-                </div>
-
-                <div className="login-row">
-                  Đang đăng nhập: {currentUser ? currentUser.name : '...'}
-                </div>
+          
+          {token && (
+            <div className="header-top">
+              <div className="nav-row">
+                <Link to="/" className="btn-link">Home</Link>
+                <Link to="/profile" className="btn-link">Profile</Link>
+                {isAdmin && (
+                  <Link to="/admin/users" className="btn-link">Quản lý Users</Link>
+                )}
+                <button onClick={handleLogout} className="btn-delete">Đăng Xuất</button>
               </div>
 
-              <Routes>
-                <Route path="/" element={<div>Chào mừng đến với hệ thống quản lý user</div>} />
-                <Route path="/profile" element={<Profile token={token} currentUser={currentUser} />} />
-                <Route path="/admin/users" element={<UserList token={token} />} />
-              </Routes>
-            </>
+              <div className="login-row">
+                Đang đăng nhập: {currentUser ? currentUser.name : '...'}
+              </div>
+            </div>
           )}
 
+          <Routes>
+            {!token ? (
+              <>
+                <Route path="/login" element={<Auth onAuth={setToken} />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route path="*" element={<Auth onAuth={setToken} />} />
+              </>
+            ) : (
+              <>
+                <Route path="/" element={
+                  <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    Chào mừng đến với hệ thống quản lý user
+                  </div>
+                } />
+                <Route path="/profile" element={<Profile token={token} currentUser={currentUser} />} />
+                {isAdmin && <Route path="/admin/users" element={<UserList token={token} />} />}
+                <Route path="*" element={
+                  <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    Trang không tồn tại
+                  </div>
+                } />
+              </>
+            )}
+          </Routes>
         </header>
       </div>
     </Router>
