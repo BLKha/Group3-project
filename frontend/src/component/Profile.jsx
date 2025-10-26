@@ -1,33 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; // Import đúng cách
 import '../styles/Profile.css';
 
 const API_BASE = 'http://localhost:3001';
 
 const Profile = ({ token, currentUser }) => {
   const [user, setUser] = useState(currentUser || null);
-  const [name, setName] = useState((currentUser && currentUser.name) || '');
-  const [email, setEmail] = useState((currentUser && currentUser.email) || '');
-  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState('');
+
+  // Trích xuất userId từ currentUser hoặc token với kiểm tra hợp lệ
+  let userId = currentUser?.id;
+  if (!userId && token) {
+    try {
+      const tokenParts = token.split(' ');
+      const tokenValue = tokenParts.length > 1 ? tokenParts[1] : token; // Lấy token từ Bearer hoặc toàn bộ
+      console.log('Token value for decode:', tokenValue); // Debug token
+      const decoded = jwtDecode(tokenValue);
+      userId = decoded?.id;
+    } catch (error) {
+      console.error('Token decoding error:', error.message);
+      setMessage('Token không hợp lệ');
+    }
+  }
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        if (!userId) {
+          setMessage('Không thể xác định user ID');
+          return;
+        }
+
         const response = await axios.get(`${API_BASE}/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setUser(response.data);
-        setName(response.data.name || '');
-        setEmail(response.data.email || '');
+        console.log('Profile data:', response.data);
+        const storedAvatar = localStorage.getItem(`userAvatar_${userId}`); // Lấy avatar theo userId
+        setUser(prevUser => ({
+          ...prevUser,
+          name: response.data.name || prevUser?.name,
+          email: response.data.email || prevUser?.email,
+          avatar: storedAvatar || prevUser?.avatar || '' // Nếu chưa có avatar, để trống
+        }));
+        setAvatarPreview('');
       } catch (error) {
-        setMessage('Lỗi tải thông tin');
+        console.error('Error fetching profile:', error.response?.status, error.message);
+        setMessage('Lỗi tải thông tin: ' + (error.response?.data?.message || error.message));
       }
     };
-    if (token && !currentUser) fetchProfile();
-  }, [token, currentUser]);
+    if (token && userId) fetchProfile();
+  }, [token, userId]);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -37,49 +63,61 @@ const Profile = ({ token, currentUser }) => {
     }
   };
 
-  const handleAvatarUpload = async () => {
-    if (!avatar) return;
-
-    const formData = new FormData();
-    formData.append('avatar', avatar);
-
-    try {
-      const response = await axios.post(
-        `${API_BASE}/profile/upload-avatar`,
-        formData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          }
-        }
-      );
-      setMessage('Cập nhật ảnh đại diện thành công');
-      setUser(prev => ({ ...prev, avatar: response.data.avatarUrl }));
-    } catch (error) {
-      setMessage('Lỗi cập nhật ảnh đại diện');
-    }
-  };
-
   const handleUpdate = async (e) => {
     e.preventDefault();
-    setMessage('');
+    if (!userId) {
+      setMessage('Không thể xác định user ID');
+      return;
+    }
+
     try {
-      const payload = { name, email };
-      if (password) payload.password = password;
-      const response = await axios.put(
-        `${API_BASE}/profile`,
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setMessage('Cập nhật thông tin thành công');
-      setPassword('');
-      
+      let updatedAvatar = user?.avatar || '';
+
       if (avatar) {
-        await handleAvatarUpload();
+        const formData = new FormData();
+        formData.append('avatar', avatar);
+        const uploadResponse = await axios.post(`${API_BASE}/advanced/upload-avatar`, formData, {
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
+        });
+        console.log('Upload response:', uploadResponse.data);
+        if (uploadResponse.data && uploadResponse.data.avatar) {
+          updatedAvatar = uploadResponse.data.avatar;
+          setUser(prevUser => ({
+            ...prevUser,
+            avatar: updatedAvatar
+          }));
+          localStorage.setItem(`userAvatar_${userId}`, updatedAvatar); // Lưu avatar riêng cho user
+        } else {
+          throw new Error('No avatar URL returned from upload');
+        }
       }
+
+      const payload = { name: user.name, email: user.email, avatar: updatedAvatar };
+      if (newPassword) payload.password = newPassword;
+
+      const putResponse = await axios.put(`${API_BASE}/profile`, payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      console.log('PUT /profile response:', putResponse.data);
+
+      const response = await axios.get(`${API_BASE}/profile`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const storedAvatar = localStorage.getItem(`userAvatar_${userId}`) || '';
+      setUser(prevUser => ({
+        ...prevUser,
+        name: response.data.name || prevUser.name,
+        email: response.data.email || prevUser.email,
+        avatar: storedAvatar
+      }));
+
+      setMessage('Cập nhật thông tin thành công');
+      setNewPassword('');
+      setAvatar(null);
+      setAvatarPreview('');
     } catch (error) {
-      setMessage('Lỗi cập nhật thông tin');
+      console.error('Error updating profile:', error.response?.status, error.response?.data || error.message);
+      setMessage('Lỗi cập nhật thông tin: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -106,6 +144,7 @@ const Profile = ({ token, currentUser }) => {
                       objectFit: 'cover',
                       border: '2px solid #ddd'
                     }}
+                    onError={(e) => console.log('Image load error:', e.target.src, e)}
                   />
                 ) : (
                   <div style={{
@@ -151,8 +190,11 @@ const Profile = ({ token, currentUser }) => {
                 <label style={{ display: 'block', marginBottom: 6 }}>Tên</label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={(user && user.name) || ''}
+                  onChange={(e) => {
+                    setUser(prev => ({ ...prev, name: e.target.value }));
+                    setMessage('');
+                  }}
                   className="profile-input"
                   style={{ width: '100%', padding: '10px 12px', borderRadius: 6, border: '1px solid #ddd' }}
                 />
@@ -161,18 +203,18 @@ const Profile = ({ token, currentUser }) => {
                 <label style={{ display: 'block', marginBottom: 6 }}>Email</label>
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={(user && user.email) || ''}
+                  readOnly
                   className="profile-input"
-                  style={{ width: '100%', padding: '10px 12px', borderRadius: 6, border: '1px solid #ddd' }}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: 6, border: '1px solid #ddd', background: '#f3f4f6', cursor: 'not-allowed' }}
                 />
               </div>
               <div className="input-group" style={{ marginBottom: 12 }}>
                 <label style={{ display: 'block', marginBottom: 6 }}>Mật khẩu mới (tùy chọn)</label>
                 <input
                   type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Để trống nếu không đổi"
                   className="profile-input"
                   style={{ width: '100%', padding: '10px 12px', borderRadius: 6, border: '1px solid #ddd' }}
@@ -202,9 +244,5 @@ const Profile = ({ token, currentUser }) => {
     </div>
   );
 };
-
-
-
-
 
 export default Profile;

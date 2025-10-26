@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 
 const API_BASE = 'http://localhost:3001';
@@ -7,11 +7,12 @@ const API_BASE = 'http://localhost:3001';
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_BASE}/auth/forgot-password`, {
+      const response = await fetch(`${API_BASE}/advanced/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,13 +52,13 @@ const ForgotPassword = () => {
             <button type="submit" className="btn primary" style={{ padding: '10px 18px', borderRadius: 6 }}>
               Gửi yêu cầu
             </button>
-            <button 
-              onClick={() => window.location.href = '/login'} 
+            <button
+              onClick={() => navigate('/login')}
               className="btn primary" 
               style={{ padding: '10px 18px', borderRadius: 6 }}
               type="button"
             >
-              Đăng nhập
+              Quay lại đăng nhập
             </button>
           </div>
           {message && (
