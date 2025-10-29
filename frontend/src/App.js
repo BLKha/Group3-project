@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     const fetchProfile = async (roleFromToken) => {
       try {
-        const res = await axios.get('https://group3-project-5h8b.onrender.com/profile', {
+        const res = await axios.get('https://group3-project-1.onrender.com/profile', {
           headers: { Authorization: `Bearer ${token}` }
         });
         // profile returns name and email

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Auth.css';
 
-const API_BASE = 'https://group3-project-5h8b.onrender.com';
+const API_BASE = 'https://group3-project-1.onrender.com';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
