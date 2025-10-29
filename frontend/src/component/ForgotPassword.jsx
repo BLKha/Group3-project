@@ -21,9 +21,15 @@ const ForgotPassword = () => {
       });
       
       const data = await response.json();
-      
+
       if (response.ok) {
-        setMessage({ type: 'success', text: 'Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn' });
+        // If backend returns a resetUrl (dev fallback when SMTP isn't configured), show it so
+        // the user (or developer) can continue testing.
+        if (data.resetUrl) {
+          setMessage({ type: 'success', text: data.message || 'Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn', resetUrl: data.resetUrl });
+        } else {
+          setMessage({ type: 'success', text: data.message || 'Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn' });
+        }
         setEmail('');
       } else {
         setMessage({ type: 'error', text: data.message || 'Có lỗi xảy ra' });
@@ -62,15 +68,14 @@ const ForgotPassword = () => {
             </button>
           </div>
           {message && (
-            <p 
-              style={{ 
-                textAlign: 'center', 
-                marginTop: '10px',
-                color: message.type === 'success' ? '#4caf50' : '#f44336'
-              }}
-            >
-              {message.text}
-            </p>
+            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+              <p style={{ color: message.type === 'success' ? '#4caf50' : '#f44336' }}>{message.text}</p>
+              {/* If backend returned a resetUrl (development fallback), display it so tester can open it */}
+              {message.resetUrl && (
+                <p style={{ marginTop: 8 }}><a href={message.resetUrl} target="_blank" rel="noopener noreferrer">Mở link đặt lại mật khẩu (dev)</a>
+                </p>
+              )}
+            </div>
           )}
         </form>
       </div>
