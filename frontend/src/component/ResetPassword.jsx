@@ -10,7 +10,7 @@ const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
 
-  const API_BASE = 'http://localhost:3001';
+  const API_BASE = 'https://group3-project-5h8b.onrender.com';
   
   const handleSubmit = async (e) => {
     e.preventDefault();
