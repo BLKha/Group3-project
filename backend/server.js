@@ -14,6 +14,10 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+  app.get('/', (req, res) => {
+  res.send('✅ Backend server is running on Render!');
+});
+
 // Routes
 const userRoutes = require('./routes/user');
 app.use('/users', userRoutes);
