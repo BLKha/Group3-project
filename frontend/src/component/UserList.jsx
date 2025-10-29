@@ -15,7 +15,7 @@ const UserList = ({ token }) => {
   const fetchUsers = async (tk) => {
     try {
       const useToken = tk || token || localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3001/users', {
+      const response = await axios.get('https://group3-project-5h8b.onrender.com/users', {
         headers: {
           Authorization: `Bearer ${useToken}`,
         },
@@ -46,7 +46,7 @@ const UserList = ({ token }) => {
     e.preventDefault();
     try {
       const tk = token || localStorage.getItem('token');
-      await axios.post('http://localhost:3001/users', newUser, {
+      await axios.post('https://group3-project-5h8b.onrender.com/users', newUser, {
         headers: { Authorization: `Bearer ${tk}` },
       });
       // refresh from server to get proper created user (and id)
@@ -73,7 +73,7 @@ const UserList = ({ token }) => {
       const tk = token || localStorage.getItem('token');
       const payload = { name: editingUser.name, email: editingUser.email };
       if (editingUser.password) payload.password = editingUser.password;
-      await axios.put(`http://localhost:3001/users/${editingUser._id}`, payload, {
+      await axios.put(`https://group3-project-5h8b.onrender.com/users/${editingUser._id}`, payload, {
         headers: { Authorization: `Bearer ${tk}` },
       });
       await fetchUsers(tk);
@@ -88,7 +88,7 @@ const UserList = ({ token }) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa user này?')) {
       try {
         const tk = token || localStorage.getItem('token');
-        await axios.delete(`http://localhost:3001/users/${userId}`, {
+        await axios.delete(`https://group3-project-5h8b.onrender.com/users/${userId}`, {
           headers: { Authorization: `Bearer ${tk}` }
         });
 

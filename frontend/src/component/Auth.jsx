@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Auth.css';
 
-const API_BASE = 'http://localhost:3001';
+const API_BASE = 'https://group3-project-5h8b.onrender.com';
 
 const Auth = ({ onAuth }) => {
   const [isLogin, setIsLogin] = useState(true);
