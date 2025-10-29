@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; // Import đúng cách
 import '../styles/Profile.css';
 
-const API_BASE = 'https://group3-project-5h8b.onrender.com';
+const API_BASE = 'https://group3-project-1.onrender.com';
 
 const Profile = ({ token, currentUser }) => {
   const [user, setUser] = useState(currentUser || null);
