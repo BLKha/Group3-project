@@ -18,7 +18,7 @@ const Profile = ({ token, currentUser }) => {
     try {
       const tokenParts = token.split(' ');
       const tokenValue = tokenParts.length > 1 ? tokenParts[1] : token; // Lấy token từ Bearer hoặc toàn bộ
-      console.log('Token value for decode:', tokenValue); // Debug token
+      // DÒNG CONSOLE.LOG TOKEN ĐÃ BỊ XÓA
       const decoded = jwtDecode(tokenValue);
       userId = decoded?.id;
     } catch (error) {
@@ -38,7 +38,7 @@ const Profile = ({ token, currentUser }) => {
         const response = await axios.get(`${API_BASE}/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        console.log('Profile data:', response.data);
+        // DÒNG CONSOLE.LOG PROFILE DATA ĐÃ BỊ XÓA
         const storedAvatar = localStorage.getItem(`userAvatar_${userId}`); // Lấy avatar theo userId
         setUser(prevUser => ({
           ...prevUser,
@@ -79,7 +79,7 @@ const Profile = ({ token, currentUser }) => {
         const uploadResponse = await axios.post(`${API_BASE}/advanced/upload-avatar`, formData, {
           headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
         });
-        console.log('Upload response:', uploadResponse.data);
+        // DÒNG CONSOLE.LOG UPLOAD RESPONSE ĐÃ BỊ XÓA
         if (uploadResponse.data && uploadResponse.data.avatar) {
           updatedAvatar = uploadResponse.data.avatar;
           setUser(prevUser => ({
@@ -98,7 +98,7 @@ const Profile = ({ token, currentUser }) => {
       const putResponse = await axios.put(`${API_BASE}/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log('PUT /profile response:', putResponse.data);
+      // DÒNG CONSOLE.LOG PUT RESPONSE ĐÃ BỊ XÓA
 
       const response = await axios.get(`${API_BASE}/profile`, {
         headers: { Authorization: `Bearer ${token}` }
