@@ -42,7 +42,11 @@ const Auth = ({ onAuth }) => {
         setPassword('');
       }
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Lỗi xảy ra');
+      if (error.response && error.response.status === 401) {
+        setMessage('Email hoặc mật khẩu không đúng. Vui lòng thử lại.');
+      } else {
+        setMessage(error.response?.data?.message || 'Lỗi xảy ra');
+      }
     }
   };
 
